@@ -8,9 +8,27 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
+var contactList = [
+    {
+        name: 'Gaurav',
+        phone: '132879'
+    },
+    {
+        name: 'Raghav',
+        phone: '654462'
+    },
+    {
+        name: 'Sarang',
+        phone: '412545'
+    }
+]
+
 // controller
 app.get('/', function(req, res){
-    const data = { title : "My Contacts List"};
+    const data = { 
+        title : "My Contacts List",
+        contact_list : contactList  // note the naming convention used
+    };
     return res.render('home', data); /* render used to for ejs view */
 });
 

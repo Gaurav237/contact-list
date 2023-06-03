@@ -6,6 +6,17 @@
     </title>
 </head>
 <body>
-    <h1>Rendered from EJS View !</h1>
+    <h1>Contacts List</h1>
+
+    <div>
+        <ul>
+            <% for(let i = 0; i < contact_list.length; i++){ %>
+                <li>
+                    <p>Name : <%= contact_list[i].name %></p>
+                    <p>Phone no. : <%= contact_list[i].phone %></li></p>
+                </li>
+            <% } %>    
+        </ul>
+    </div>
 </body>
 </html>
