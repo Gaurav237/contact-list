@@ -9,7 +9,21 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
 // middleware => parser to parse encoded data of into body of request
-app.use(express.urlencoded());
+// app.use(express.urlencoded());
+
+// custom middleware 1
+app.use(function(req, res, next) {
+    req.myName="Arpan";
+    // console.log('middleware1 called');
+    next();
+});
+// middleware2
+app.use(function(req, res, next){
+    console.log("MyName from MW2 ", myName);
+    // console.log('middleware2 called');
+    next();
+});
+
 
 var contactList = [
     {
