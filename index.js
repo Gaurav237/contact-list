@@ -8,6 +8,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
+// middleware => parser to parse encoded data of into body of request
+app.use(express.urlencoded());
+
 var contactList = [
     {
         name: 'Gaurav',
@@ -35,7 +38,20 @@ app.get('/', function(req, res){
 app.get('/practice', function(req, res){
     const data = { title : "Let us play with ejs"}
     return res.render('practice', data);
-})
+});
+
+// router for adding new contact via form
+app.post('/create-contact', function(req, res){
+     
+    // contactList.push({
+    //     name: req.body.name,
+    //     phone: req.body.phone
+    // });
+    contactList.push(req.body);
+
+    //  redirect the user back to the previous page they were on.
+    return res.redirect('back');
+});
 
 
 app.listen(port, function(err){
