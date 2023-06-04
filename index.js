@@ -15,44 +15,24 @@ app.set('views', path.join(__dirname, 'views'))
 // middleware => parser to parse encoded data of into body of request
 app.use(express.urlencoded());
 
-// custom middleware 1
-// app.use(function(req, res, next) {
-//     req.myName="Arpan";
-//     // console.log('middleware1 called');
-//     next();
-// });
-// // middleware2
-// app.use(function(req, res, next){
-//     console.log("MyName from MW2 ", myName);
-//     // console.log('middleware2 called');
-//     next();
-// });
 
 // Static files added
 app.use(express.static('assets'));
 
-var contactList = [
-    {
-        name: 'Gaurav',
-        phone: '132879'
-    },
-    {
-        name: 'Raghav',
-        phone: '654462'
-    },
-    {
-        name: 'Sarang',
-        phone: '412545'
-    }
-]
-
 // controller
 app.get('/', function(req, res){
-    const data = { 
-        title : "My Contacts List",
-        contact_list : contactList  // note the naming convention used
-    };
-    return res.render('home', data); /* render used to for ejs view */
+
+    Contact.find({})
+        .then( contacts => {
+            const data = { 
+                title : "My Contacts List",
+                contact_list : contacts  // note the naming convention used
+            };
+            return res.render('home', data); /* render used to for ejs view */
+        })
+        .catch( err => {
+            console.log('error in fetching contacts from db');
+        }); 
 });
 
 app.get('/practice', function(req, res){
@@ -67,10 +47,20 @@ app.post('/create-contact', function(req, res){
     //     name: req.body.name,
     //     phone: req.body.phone
     // });
-    contactList.push(req.body);
+    // contactList.push(req.body);
+    
+    Contact.create({
+        name: req.body.name,
+        phone: req.body.phone
+    })
+    .then(newContact => {
+        console.log('Contact created : ', newContact);
+        res.redirect('back');
+    })
+    .catch(err => {
+        console.log('error in creating the contact : ', err);
+    });
 
-    //  redirect the user back to the previous page they were on.
-    return res.redirect('back');
 });
 
 // for deleting a contact
