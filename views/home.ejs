@@ -19,7 +19,7 @@
                         <p><%= contact_list[i].phone %></p>
                     </div>
                     <div class="delete-button">
-                        <a href="/delete-contact/?phone=<%= contact_list[i].phone %>&name=<%= contact_list[i].name %>">
+                        <a href="/delete-contact/?id=<%= contact_list[i]._id %>">
                             <i class="fa fa-remove" style="font-size:48px;color:red"></i>
                         </a>
                     </div>

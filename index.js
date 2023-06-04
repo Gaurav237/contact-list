@@ -13,8 +13,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
 // middleware => parser to parse encoded data of into body of request
-app.use(express.urlencoded());
-
+app.use(express.urlencoded({ extended: true }));
 
 // Static files added
 app.use(express.static('assets'));
@@ -66,15 +65,18 @@ app.post('/create-contact', function(req, res){
 // for deleting a contact
 app.get('/delete-contact', function(req, res){
     // get query from url 
-    let _phone = req.query.phone;
+    let id = req.query.id;
 
-    let contactIndex = contactList.findIndex((contact) => contact.phone == _phone);
-   
-    if(contactIndex != -1){
-        contactList.splice(contactIndex, 1);
-    }
-
-    return res.redirect('back');
+    // find the contact in the db using id an delete it
+    Contact.findByIdAndDelete(id)
+        .then(deletedContact => {
+            console.log('Contact deleted : ', deletedContact);
+            res.redirect('back');
+        })
+        .catch(error => {
+            console.log('Error deleting contact : ', error);
+            res.redirect('back');
+        });
 });
 
 
