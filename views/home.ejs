@@ -4,26 +4,37 @@
     <title>
         <%= title %>
     </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-    <h1>Contacts List</h1>
+    <h1 id="page-heading"><i class="fa fa-address-book"></i> Contacts List</h1>
 
-    <div>
+    <div id="contact-list-container">
         <ul>
             <% for(let i = 0; i < contact_list.length; i++){ %>
-                <li>
-                    <p>Name : <%= contact_list[i].name %></p>
-                    <p>Phone no. : <%= contact_list[i].phone %></li></p>
+                <li class="list">
+                    <div class="details">
+                        <p><%= contact_list[i].name %></p>
+                        <p><%= contact_list[i].phone %></p>
+                    </div>
+                    <div class="delete-button">
+                        <a href="/delete-contact/?phone=<%= contact_list[i].phone %>&name=<%= contact_list[i].name %>">
+                            <i class="fa fa-remove" style="font-size:48px;color:red"></i>
+                        </a>
+                    </div>
                 </li>
             <% } %>    
         </ul>
     </div>
 
     <!-- form added to append new contact to the contact list  -->
-    <form action="/create-contact" method="POST">
+    <form id="contact-form" action="/create-contact" method="POST">
         <input type="text" name="name" placeholder="enter name" required>
         <input type="text" name="phone" placeholder="enter phone number" required>
         <button type="submit">ADD</button>
     </form>
+
+    <script type="text/javascript" src="/js/home.js"></script>
 </body>
 </html>

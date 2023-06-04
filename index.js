@@ -9,21 +9,23 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
 // middleware => parser to parse encoded data of into body of request
-// app.use(express.urlencoded());
+app.use(express.urlencoded());
 
 // custom middleware 1
-app.use(function(req, res, next) {
-    req.myName="Arpan";
-    // console.log('middleware1 called');
-    next();
-});
-// middleware2
-app.use(function(req, res, next){
-    console.log("MyName from MW2 ", myName);
-    // console.log('middleware2 called');
-    next();
-});
+// app.use(function(req, res, next) {
+//     req.myName="Arpan";
+//     // console.log('middleware1 called');
+//     next();
+// });
+// // middleware2
+// app.use(function(req, res, next){
+//     console.log("MyName from MW2 ", myName);
+//     // console.log('middleware2 called');
+//     next();
+// });
 
+// Static files added
+app.use(express.static('assets'));
 
 var contactList = [
     {
@@ -64,6 +66,20 @@ app.post('/create-contact', function(req, res){
     contactList.push(req.body);
 
     //  redirect the user back to the previous page they were on.
+    return res.redirect('back');
+});
+
+// for deleting a contact
+app.get('/delete-contact', function(req, res){
+    // get query from url 
+    let _phone = req.query.phone;
+
+    let contactIndex = contactList.findIndex((contact) => contact.phone == _phone);
+   
+    if(contactIndex != -1){
+        contactList.splice(contactIndex, 1);
+    }
+
     return res.redirect('back');
 });
 
